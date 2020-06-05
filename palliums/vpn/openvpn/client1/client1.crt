@@ -1,0 +1,96 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 2 (0x2)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=CN, ST=HeBei, L=DaChang, O=BBC, OU=BBC-core, CN=BBC CA/name=EasyRSA/emailAddress=shang_qd@qq.com
+        Validity
+            Not Before: May  5 10:08:09 2020 GMT
+            Not After : May  3 10:08:09 2030 GMT
+        Subject: C=CN, ST=HeBei, L=DaChang, O=BBC, OU=BBC-core, CN=client1/name=EasyRSA/emailAddress=shang_qd@qq.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:b2:02:a4:62:4c:70:12:1a:38:95:bb:8c:22:ec:
+                    b5:52:d3:47:b7:b8:84:9c:55:8d:4b:f9:8d:69:9a:
+                    7e:f9:d0:9b:24:cb:7d:e5:ea:a4:d1:bd:0b:20:12:
+                    2c:7d:2e:46:b5:81:c6:cc:df:5b:90:2b:b3:45:08:
+                    9e:8f:77:01:75:9f:56:ee:40:9c:3f:db:a2:0e:b9:
+                    27:be:85:f5:76:28:00:a6:52:6e:50:5a:fc:11:7a:
+                    e3:0f:38:f5:c2:13:45:0f:9f:ea:30:af:2a:55:44:
+                    ac:1b:1b:95:b9:26:54:72:4f:46:70:94:84:49:1d:
+                    9e:b4:92:f9:c4:ff:c2:2a:66:43:7e:0d:85:a3:77:
+                    19:33:eb:03:46:a7:62:bf:ea:4b:11:9b:8d:58:06:
+                    b5:5a:c0:5a:47:82:56:53:6c:d0:0e:3a:7b:4b:c2:
+                    03:89:4e:5e:48:22:65:f8:03:00:87:65:27:f8:aa:
+                    05:d4:f1:15:4b:31:7c:e8:82:35:ea:43:b4:57:a2:
+                    d8:0b:7a:66:11:40:96:6b:66:c0:f4:77:20:c0:5f:
+                    15:6d:9c:c2:c3:ce:52:87:43:77:b7:76:e5:c8:7b:
+                    3e:d7:28:e6:00:b9:ec:44:40:5b:6a:fa:e2:5d:7b:
+                    a4:a1:fe:05:c0:13:61:f6:f1:f2:1e:0f:e3:c3:6d:
+                    5d:75
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Comment: 
+                Easy-RSA Generated Certificate
+            X509v3 Subject Key Identifier: 
+                C6:77:BD:F0:28:7B:76:5E:F2:15:FB:CA:1A:3A:C5:B0:46:65:CD:90
+            X509v3 Authority Key Identifier: 
+                keyid:3B:D1:91:81:15:07:6C:02:76:C7:51:0F:EA:AB:83:53:59:37:D0:CC
+                DirName:/C=CN/ST=HeBei/L=DaChang/O=BBC/OU=BBC-core/CN=BBC CA/name=EasyRSA/emailAddress=shang_qd@qq.com
+                serial:9C:68:0D:2B:7A:E9:D1:3D
+
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Key Usage: 
+                Digital Signature
+            X509v3 Subject Alternative Name: 
+                DNS:client1
+    Signature Algorithm: sha256WithRSAEncryption
+         6a:b4:3a:95:b8:2f:a8:f6:bb:4f:b5:1d:7c:4e:8b:17:25:48:
+         52:d1:de:d2:7b:4b:9c:13:21:f1:ad:c4:50:de:14:1f:a3:75:
+         24:0a:4c:94:5e:db:98:e2:da:86:50:b2:9b:1d:0a:7d:67:c1:
+         d1:e0:b3:32:69:94:85:53:a5:21:b6:2d:27:d3:ec:73:f2:b8:
+         bf:54:41:f4:00:f5:39:71:8c:33:50:74:22:a7:37:95:31:4a:
+         cf:b5:3d:a6:56:42:bb:e1:8c:d9:34:99:9e:6b:3c:b2:83:15:
+         b1:58:64:5c:36:b7:73:61:a0:01:d8:67:6b:ea:f2:0a:e4:ae:
+         16:18:2b:ed:5c:25:67:91:32:51:e0:b2:c2:5b:a0:93:ac:c5:
+         e5:b9:85:6b:5f:f6:d1:42:95:2a:1c:91:8a:4a:3a:73:f3:18:
+         96:a2:c4:d8:27:92:d6:11:ff:67:69:d4:8d:42:5c:f9:ac:79:
+         e6:4e:b6:ab:4c:77:97:13:5b:76:a3:08:93:12:b8:87:01:a0:
+         d8:af:1c:39:c1:63:a7:86:e9:c4:49:5b:ee:c2:fa:8e:b3:06:
+         7f:a2:cc:7e:0a:8a:3c:25:1b:5d:63:78:fd:67:c7:9f:df:b9:
+         62:a6:3f:fd:dd:f1:7a:52:ee:f6:18:34:17:a9:42:e5:c8:32:
+         fd:bb:21:2a
+-----BEGIN CERTIFICATE-----
+MIIFBDCCA+ygAwIBAgIBAjANBgkqhkiG9w0BAQsFADCBkzELMAkGA1UEBhMCQ04x
+DjAMBgNVBAgTBUhlQmVpMRAwDgYDVQQHEwdEYUNoYW5nMQwwCgYDVQQKEwNCQkMx
+ETAPBgNVBAsTCEJCQy1jb3JlMQ8wDQYDVQQDEwZCQkMgQ0ExEDAOBgNVBCkTB0Vh
+c3lSU0ExHjAcBgkqhkiG9w0BCQEWD3NoYW5nX3FkQHFxLmNvbTAeFw0yMDA1MDUx
+MDA4MDlaFw0zMDA1MDMxMDA4MDlaMIGUMQswCQYDVQQGEwJDTjEOMAwGA1UECBMF
+SGVCZWkxEDAOBgNVBAcTB0RhQ2hhbmcxDDAKBgNVBAoTA0JCQzERMA8GA1UECxMI
+QkJDLWNvcmUxEDAOBgNVBAMTB2NsaWVudDExEDAOBgNVBCkTB0Vhc3lSU0ExHjAc
+BgkqhkiG9w0BCQEWD3NoYW5nX3FkQHFxLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBALICpGJMcBIaOJW7jCLstVLTR7e4hJxVjUv5jWmafvnQmyTL
+feXqpNG9CyASLH0uRrWBxszfW5Ars0UIno93AXWfVu5AnD/bog65J76F9XYoAKZS
+blBa/BF64w849cITRQ+f6jCvKlVErBsblbkmVHJPRnCUhEkdnrSS+cT/wipmQ34N
+haN3GTPrA0anYr/qSxGbjVgGtVrAWkeCVlNs0A46e0vCA4lOXkgiZfgDAIdlJ/iq
+BdTxFUsxfOiCNepDtFei2At6ZhFAlmtmwPR3IMBfFW2cwsPOUodDd7d25ch7Ptco
+5gC57ERAW2r64l17pKH+BcATYfbx8h4P48NtXXUCAwEAAaOCAV4wggFaMAkGA1Ud
+EwQCMAAwLQYJYIZIAYb4QgENBCAWHkVhc3ktUlNBIEdlbmVyYXRlZCBDZXJ0aWZp
+Y2F0ZTAdBgNVHQ4EFgQUxne98Ch7dl7yFfvKGjrFsEZlzZAwgcgGA1UdIwSBwDCB
+vYAUO9GRgRUHbAJ2x1EP6quDU1k30MyhgZmkgZYwgZMxCzAJBgNVBAYTAkNOMQ4w
+DAYDVQQIEwVIZUJlaTEQMA4GA1UEBxMHRGFDaGFuZzEMMAoGA1UEChMDQkJDMREw
+DwYDVQQLEwhCQkMtY29yZTEPMA0GA1UEAxMGQkJDIENBMRAwDgYDVQQpEwdFYXN5
+UlNBMR4wHAYJKoZIhvcNAQkBFg9zaGFuZ19xZEBxcS5jb22CCQCcaA0reunRPTAT
+BgNVHSUEDDAKBggrBgEFBQcDAjALBgNVHQ8EBAMCB4AwEgYDVR0RBAswCYIHY2xp
+ZW50MTANBgkqhkiG9w0BAQsFAAOCAQEAarQ6lbgvqPa7T7UdfE6LFyVIUtHe0ntL
+nBMh8a3EUN4UH6N1JApMlF7bmOLahlCymx0KfWfB0eCzMmmUhVOlIbYtJ9Psc/K4
+v1RB9AD1OXGMM1B0Iqc3lTFKz7U9plZCu+GM2TSZnms8soMVsVhkXDa3c2GgAdhn
+a+ryCuSuFhgr7VwlZ5EyUeCywlugk6zF5bmFa1/20UKVKhyRiko6c/MYlqLE2CeS
+1hH/Z2nUjUJc+ax55k62q0x3lxNbdqMIkxK4hwGg2K8cOcFjp4bpxElb7sL6jrMG
+f6LMfgqKPCUbXWN4/WfHn9+5YqY//d3xelLu9hg0F6lC5cgy/bshKg==
+-----END CERTIFICATE-----

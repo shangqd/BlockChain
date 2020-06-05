@@ -1,0 +1,7 @@
+# 最大熵模型
+https://github.com/lzhang10/maxent
+
+maxent -m ./test -i 30 ./data.txt
+maxent -p -m ./test -o ./output.txt  data.txt
+
+

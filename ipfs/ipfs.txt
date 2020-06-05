@@ -1,0 +1,9 @@
+# 查找贡献者 后面的key表示自己开发商铺的hash_id
+ipfs dht findprovs -v QmQLXHs7K98JNQdWrBB2cQLJahPhmupbDjRuH1b9ibmwVa
+
+# 完成奖励的发放，通过修改这个命令
+ipfs ping QmYEDb7YEyvxDiVWRNj88vnAQSySs3P6CWKvcLB1CHwTLD
+
+# 这个命令可以查看资源
+./ipfs pin ls
+资源的增删改查都有了

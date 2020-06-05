@@ -1,0 +1,222 @@
+[  0%] Building CXX object snappy/CMakeFiles/snappy.dir/snappy-c.cc.o
+[  1%] Building CXX object snappy/CMakeFiles/snappy.dir/snappy-sinksource.cc.o
+[  1%] Building CXX object snappy/CMakeFiles/snappy.dir/snappy-stubs-internal.cc.o
+[  2%] Building CXX object snappy/CMakeFiles/snappy.dir/snappy.cc.o
+[  3%] Linking CXX static library libsnappy.a
+[  3%] Built target snappy
+# google 的一个压缩的开源库
+
+[  3%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/util.cpp.o
+ 时间hash IP 地址的基本函数
+[  4%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/entry/entry.cpp.o
+也可以理解成类的进入点
+导出一个重要类 CWalleveEntry， 支持进程间的文件锁 和异步IO，继承这个类有可能是阻塞的。
+[  5%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/event/event.cpp.o
+[  5%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/event/eventproc.cpp.o
+以上两个文件包装了几个事件类如CWalleveEvent
+[  6%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/stream/circular.cpp.o
+[  7%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/stream/stream.cpp.o
+包装了数据流，包括标准数据流和环形数据流circularbuf，CWalleveODataStream，CWalleveIDataStream
+[  7%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/base/base.cpp.o
+对事件进行继承，构成一个基本的IWalleveBase,
+[  8%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/docker/config.cpp.o
+配置文件的类
+[  8%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/docker/docker.cpp.o
+导出了CWalleveDocker 类，主要是被动性的类
+[  9%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/netio/nethost.cpp.o
+导出网络类 CNetHost 服务器端类
+[ 10%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/netio/ioclient.cpp.o
+导出网路客户端类 CSocketClient
+[ 10%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/netio/iocontainer.cpp.o
+导出CIOContainer 为基类的好几个类
+[ 11%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/netio/ioproc.cpp.o
+导出 CIOProc 核心类
+[ 11%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/console/console.cpp.o
+导入控制台类
+[ 12%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/peernet/nodemngr.cpp.o
+[ 13%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/peernet/epmngr.cpp.o
+[ 13%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/peernet/peer.cpp.o
+[ 14%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/peernet/peernet.cpp.o
+p2p 网络服务类
+
+[ 14%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/http/httpcookie.cpp.o
+[ 15%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/http/httpsse.cpp.o
+[ 16%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/http/httputil.cpp.o
+[ 16%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/http/httpserver.cpp.o
+[ 17%] Building CXX object walleve/CMakeFiles/walleve.dir/walleve/http/httpget.cpp.o
+导出http 服务相关的类
+[ 18%] Linking CXX static library libwalleve.a
+[ 18%] Built target walleve
+ 这是一个基本为公链提供的库，导出基本相关的类，这个库构成了一个强大的类网。
+ 
+[ 19%] Building CXX object crypto/CMakeFiles/crypto.dir/crc24q.cpp.o
+[ 19%] Building CXX object crypto/CMakeFiles/crypto.dir/base32.cpp.o
+[ 20%] Building CXX object crypto/CMakeFiles/crypto.dir/crypto.cpp.o
+[ 20%] Building CXX object crypto/CMakeFiles/crypto.dir/key.cpp.o
+[ 21%] Building CXX object crypto/CMakeFiles/crypto.dir/keystore.cpp.o
+[ 22%] Linking CXX static library libcrypto.a
+[ 22%] Built target crypto
+密码学相关的库，好像是没有继承openssl,真的是自己的实现吗？有待下一步考察
+
+[ 22%] Building CXX object common/CMakeFiles/common.dir/destination.cpp.o
+[ 23%] Building CXX object common/CMakeFiles/common.dir/template.cpp.o
+[ 23%] Building CXX object common/CMakeFiles/common.dir/profile.cpp.o
+[ 24%] Linking CXX static library libcommon.a
+[ 24%] Built target common
+导出模板相关的类，本系统没有使用脚本，而是使用模板，自由性降低了，但是也更安全了。
+导出了与模板相关的一些类。
+[ 24%] Building CXX object mpvss/CMakeFiles/mpvss.dir/curve25519/base25519.cpp.o
+[ 25%] Building CXX object mpvss/CMakeFiles/mpvss.dir/curve25519/fp25519.cpp.o
+[ 26%] Building CXX object mpvss/CMakeFiles/mpvss.dir/curve25519/sc25519.cpp.o
+[ 26%] Building CXX object mpvss/CMakeFiles/mpvss.dir/curve25519/ed25519.cpp.o
+[ 27%] Building CXX object mpvss/CMakeFiles/mpvss.dir/mpbox.cpp.o
+[ 27%] Building CXX object mpvss/CMakeFiles/mpvss.dir/mpinterpolation.cpp.o
+[ 28%] Building CXX object mpvss/CMakeFiles/mpvss.dir/mpvss.cpp.o
+[ 29%] Linking CXX static library libmpvss.a
+[ 29%] Built target mpvss
+实现DPOS相关的类，和椭圆曲线加密curve25519标准（椭圆曲线加密为什么要放到这个地方，而不放在算法库钟）。
+
+[ 30%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/builder.cc.o
+[ 30%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/c.cc.o
+[ 31%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/db_impl.cc.o
+[ 31%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/db_iter.cc.o
+[ 32%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/dbformat.cc.o
+[ 33%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/dumpfile.cc.o
+[ 33%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/filename.cc.o
+[ 34%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/log_reader.cc.o
+[ 35%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/log_writer.cc.o
+[ 35%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/memtable.cc.o
+[ 36%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/repair.cc.o
+[ 36%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/table_cache.cc.o
+[ 37%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/version_edit.cc.o
+[ 38%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/version_set.cc.o
+[ 38%] Building CXX object leveldb/CMakeFiles/leveldb.dir/db/write_batch.cc.o
+[ 39%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/block_builder.cc.o
+[ 39%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/block.cc.o
+[ 40%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/filter_block.cc.o
+[ 41%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/format.cc.o
+[ 41%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/iterator.cc.o
+[ 42%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/merger.cc.o
+[ 42%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/table_builder.cc.o
+[ 43%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/table.cc.o
+[ 44%] Building CXX object leveldb/CMakeFiles/leveldb.dir/table/two_level_iterator.cc.o
+[ 44%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/arena.cc.o
+[ 45%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/bloom.cc.o
+[ 46%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/cache.cc.o
+[ 46%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/coding.cc.o
+[ 47%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/comparator.cc.o
+[ 47%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/crc32c.cc.o
+[ 48%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/env.cc.o
+[ 49%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/filter_policy.cc.o
+[ 49%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/hash.cc.o
+[ 50%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/logging.cc.o
+[ 50%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/options.cc.o
+[ 51%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/status.cc.o
+[ 52%] Building CXX object leveldb/CMakeFiles/leveldb.dir/util/env_posix.cc.o
+[ 52%] Building CXX object leveldb/CMakeFiles/leveldb.dir/helpers/memenv/memenv.cc.o
+[ 53%] Linking CXX static library libleveldb.a
+[ 53%] Built target leveldb
+# google的分层的KV数据库。
+
+[ 53%] Building CXX object storage/CMakeFiles/storage.dir/timeseries.cpp.o
+存放真正意义上的区块
+[ 54%] Building CXX object storage/CMakeFiles/storage.dir/blockdb.cpp.o
+[ 54%] Building CXX object storage/CMakeFiles/storage.dir/blockbase.cpp.o
+本模块提供对外的区块链数据服务
+[ 55%] Building CXX object storage/CMakeFiles/storage.dir/blockindexdb.cpp.o
+[ 56%] Building CXX object storage/CMakeFiles/storage.dir/walletdb.cpp.o
+[ 56%] Building CXX object storage/CMakeFiles/storage.dir/txpooldb.cpp.o
+内存池数据序列化和反序列化
+[ 57%] Building CXX object storage/CMakeFiles/storage.dir/unspentdb.cpp.o
+[ 58%] Building CXX object storage/CMakeFiles/storage.dir/delegatedb.cpp.o
+[ 58%] Building CXX object storage/CMakeFiles/storage.dir/forkdb.cpp.o
+[ 59%] Building CXX object storage/CMakeFiles/storage.dir/purger.cpp.o
+[ 59%] Building CXX object storage/CMakeFiles/storage.dir/leveldbeng.cpp.o
+对leveldb 的封装。
+[ 60%] Building CXX object storage/CMakeFiles/storage.dir/txindexdb.cpp.o
+[ 61%] Building CXX object storage/CMakeFiles/storage.dir/ctsdb.cpp.o
+[ 61%] Linking CXX static library libstorage.a
+[ 61%] Built target storage
+各种存储包括在这个库中， 钱包，区块，内存池，分叉
+
+[ 62%] Building CXX object network/CMakeFiles/network.dir/mvproto.cpp.o
+[ 62%] Building CXX object network/CMakeFiles/network.dir/mvpeer.cpp.o
+[ 63%] Building CXX object network/CMakeFiles/network.dir/mvpeernet.cpp.o
+[ 64%] Linking CXX static library libnetwork.a
+[ 64%] Built target network
+P2P 网络的再次包装（建立在walleve这个库上的）
+
+[ 64%] Building CXX object delegate/CMakeFiles/delegate.dir/mvdelegatevote.cpp.o
+[ 65%] Building CXX object delegate/CMakeFiles/delegate.dir/mvdelegate.cpp.o
+[ 65%] Building CXX object delegate/CMakeFiles/delegate.dir/mvdelegateverify.cpp.o
+[ 66%] Linking CXX static library libdelegate.a
+[ 66%] Built target delegate
+# 仅仅是代表 这个记录了什么样的数据呢？ 可能是跟DPOS有关的吧。
+
+[ 66%] Running C++ protocol buffer compiler on dbp-proto/sn.proto
+[ 66%] Generating rpc/auto_protocol.cpp, rpc/auto_protocol.h, rpc/auto_rpc.cpp, rpc/auto_rpc.h, mode/auto_options.h
+[ 67%] Running C++ protocol buffer compiler on dbp-proto/dbp.proto
+[ 68%] Running C++ protocol buffer compiler on dbp-proto/lws.proto
+# 使用PROC 生成一些重要的 数据结构，应该仔细阅读这些数据结构。
+# 这些数据结构都是些什么玩意
+
+Scanning dependencies of target multiverse
+[ 69%] Building CXX object src/CMakeFiles/multiverse.dir/rpc/auto_protocol.cpp.o
+[ 69%] Building CXX object src/CMakeFiles/multiverse.dir/rpc/auto_rpc.cpp.o
+[ 70%] Building CXX object src/CMakeFiles/multiverse.dir/multiverse.cpp.o
+[ 71%] Building CXX object src/CMakeFiles/multiverse.dir/address.cpp.o
+[ 71%] Building CXX object src/CMakeFiles/multiverse.dir/blockmaker.cpp.o
+[ 72%] Building CXX object src/CMakeFiles/multiverse.dir/config.cpp.o
+[ 72%] Building CXX object src/CMakeFiles/multiverse.dir/core.cpp.o
+[ 73%] Building CXX object src/CMakeFiles/multiverse.dir/dispatcher.cpp.o
+[ 74%] Building CXX object src/CMakeFiles/multiverse.dir/entry.cpp.o
+[ 74%] Building CXX object src/CMakeFiles/multiverse.dir/error.cpp.o
+[ 75%] Building CXX object src/CMakeFiles/multiverse.dir/miner.cpp.o
+[ 75%] Building CXX object src/CMakeFiles/multiverse.dir/netchn.cpp.o
+[ 76%] Building CXX object src/CMakeFiles/multiverse.dir/delegatedchn.cpp.o
+[ 77%] Building CXX object src/CMakeFiles/multiverse.dir/network.cpp.o
+[ 77%] Building CXX object src/CMakeFiles/multiverse.dir/rpcclient.cpp.o
+[ 78%] Building CXX object src/CMakeFiles/multiverse.dir/rpcjson.cpp.o
+[ 79%] Building CXX object src/CMakeFiles/multiverse.dir/rpcmod.cpp.o
+[ 79%] Building CXX object src/CMakeFiles/multiverse.dir/consensus.cpp.o
+[ 80%] Building CXX object src/CMakeFiles/multiverse.dir/dbpserver.cpp.o
+[ 80%] Building CXX object src/CMakeFiles/multiverse.dir/dbpservice.cpp.o
+[ 81%] Building CXX object src/CMakeFiles/multiverse.dir/dbpclient.cpp.o
+[ 82%] Building CXX object src/CMakeFiles/multiverse.dir/schedule.cpp.o
+[ 82%] Building CXX object src/CMakeFiles/multiverse.dir/service.cpp.o
+[ 83%] Building CXX object src/CMakeFiles/multiverse.dir/txpool.cpp.o
+内存池数据加载和保存提供数据服务，程序正常退出的时候，数据会自动保存。
+[ 83%] Building CXX object src/CMakeFiles/multiverse.dir/wallet.cpp.o
+[ 84%] Building CXX object src/CMakeFiles/multiverse.dir/worldline.cpp.o
+[ 85%] Building CXX object src/CMakeFiles/multiverse.dir/forkmanager.cpp.o
+[ 85%] Building CXX object src/CMakeFiles/multiverse.dir/mode/basic_config.cpp.o
+[ 86%] Building CXX object src/CMakeFiles/multiverse.dir/mode/fork_config.cpp.o
+[ 86%] Building CXX object src/CMakeFiles/multiverse.dir/mode/mint_config.cpp.o
+[ 87%] Building CXX object src/CMakeFiles/multiverse.dir/mode/network_config.cpp.o
+[ 88%] Building CXX object src/CMakeFiles/multiverse.dir/mode/rpc_config.cpp.o
+[ 88%] Building CXX object src/CMakeFiles/multiverse.dir/mode/dbp_config.cpp.o
+[ 89%] Building CXX object src/CMakeFiles/multiverse.dir/mode/storage_config.cpp.o
+[ 89%] Building CXX object src/CMakeFiles/multiverse.dir/rpc/rpc_error.cpp.o
+[ 90%] Building CXX object src/CMakeFiles/multiverse.dir/rpc/rpc_req.cpp.o
+[ 91%] Building CXX object src/CMakeFiles/multiverse.dir/rpc/rpc_resp.cpp.o
+[ 91%] Building CXX object src/CMakeFiles/multiverse.dir/dbp.pb.cc.o
+[ 92%] Building CXX object src/CMakeFiles/multiverse.dir/lws.pb.cc.o
+[ 93%] Building CXX object src/CMakeFiles/multiverse.dir/sn.pb.cc.o
+[ 93%] Linking CXX executable multiverse
+[ 93%] Built target multiverse
+# 中间的很多类继承上面提到了上面库中的类。生成最后的目标
+
+[ 94%] Building CXX object test/CMakeFiles/test_ctsdb.dir/test_fnfn_main.cpp.o
+[ 94%] Building CXX object test/CMakeFiles/test_ctsdb.dir/test_fnfn.cpp.o
+[ 95%] Building CXX object test/CMakeFiles/test_ctsdb.dir/ctsdb_test.cpp.o
+[ 96%] Linking CXX executable test_ctsdb
+[ 96%] Built target test_ctsdb
+[ 96%] Building CXX object test/CMakeFiles/test_fnfn.dir/test_fnfn_main.cpp.o
+[ 97%] Building CXX object test/CMakeFiles/test_fnfn.dir/test_fnfn.cpp.o
+[ 97%] Building CXX object test/CMakeFiles/test_fnfn.dir/uint256_tests.cpp.o
+[ 98%] Building CXX object test/CMakeFiles/test_fnfn.dir/rpc_tests.cpp.o
+[ 99%] Building CXX object test/CMakeFiles/test_fnfn.dir/version_tests.cpp.o
+[ 99%] Building CXX object test/CMakeFiles/test_fnfn.dir/mpvss_tests.cpp.o
+[100%] Linking CXX executable test_fnfn
+[100%] Built target test_fnfn
+# 

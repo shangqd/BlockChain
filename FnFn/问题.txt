@@ -1,0 +1,28 @@
+
+for (int i = 1; i < 50; i++)
+{
+  CSC25519 obj = SCInverseZero[i];
+  obj = obj * i;
+  assert(obj == (uint64_t)1);
+}
+
+for (int i = 0; i < 101; i++)
+{
+        CSC25519 A = SCInverse[i];
+        CSC25519 B = SCInverse[100 - i];
+        B = B + A;
+        assert(B == (uint64_t)0);
+ }
+ # 这就是拉格朗日系数的全部秘密
+    
+# 椭圆曲线的官方描述
+https://tools.ietf.org/html/rfc8032
+
+# 共识pow出块曲线
+
+x = [0:1:50];
+
+a = ((50 - x).^3) ./ (50 * 50 + x);
+y = (a .* 256) ./ (a + x);
+
+plot(x,y);

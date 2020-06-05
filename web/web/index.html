@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bes regisuer user</title>
+    <script src='jquery.js'></script>
+
+ 	<style>
+        .form{text-align: center;}
+    label{width:50px;display:inline-block;text-align-last: justify;margin-right:5px;}
+    input{margin-left:20px;padding:5px 10px;}
+    </style>
+
+</head>
+<body>
+
+    <div class='form'>
+        <p><label>用户名</label>:<input type='text' name='name' class='name'></p>
+        <p><label>公钥1</label>:<input type='text' name='pk1' class='pk1'></p>
+        <p><label>公钥2</label>:<input type='text' name='pk2' class='pk2'></p>
+        <p><label>邮箱</label>:<input type='email' name='email' class='email' required></p>
+		<button id="post_code" type='submit'>发送验证码</button>
+		<p><label>验证码</label>:<input type='text' name='code' class='code'></p>
+        <button id="regisuer" type='submit'>提交</button>
+    </div>
+    
+    <script>
+        $(function(){            
+			$('#post_code').on('click',function(){
+				var reg = /^((([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})[; ,])*(([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})))$/;
+				email_ = $(".email").val();				
+				if (reg.test(email_)){
+                	let params = {
+                    	email:email_,
+                	}
+                	console.log(params)
+                	$.post('http://127.0.0.1:5000/post_code',params,function(res){
+					alert(res.msg)
+                	})
+				} else {
+					alert("邮箱地址错误")
+				}
+            })
+
+			$('#regisuer').on('click',function(){
+                let params = {
+                    email:$(".email").val(),
+                    name:$('.name').val(),
+					pk1:$('.pk1').val(),
+					pk2:$('.pk2').val(),
+					code:$('.code').val(),
+                }
+                console.log(params)
+                $.post('http://127.0.0.1:5000/input',params,function(res){
+                    //console.log('web submit::::::',res.msg)
+					alert(res.msg)
+                })
+            })
+        })
+        
+   
+    </script>
+</body>
+</html>

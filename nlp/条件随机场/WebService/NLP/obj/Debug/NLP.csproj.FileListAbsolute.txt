@@ -1,0 +1,11 @@
+D:\NLP\NLP\NLP\bin\NLP.dll.config
+D:\NLP\NLP\NLP\bin\NLP.dll
+D:\NLP\NLP\NLP\bin\NLP.pdb
+D:\NLP\NLP\NLP\obj\Debug\NLP.csprojResolveAssemblyReference.cache
+D:\NLP\NLP\NLP\obj\Debug\NLP.dll
+D:\NLP\NLP\NLP\obj\Debug\NLP.pdb
+D:\WebService\NLP\bin\NLP.dll.config
+D:\WebService\NLP\bin\NLP.dll
+D:\WebService\NLP\bin\NLP.pdb
+D:\WebService\NLP\obj\Debug\NLP.dll
+D:\WebService\NLP\obj\Debug\NLP.pdb

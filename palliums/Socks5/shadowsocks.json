@@ -1,0 +1,13 @@
+{
+  "server": "0.0.0.0",
+  "local_address": "127.0.0.1",
+  "local_port": 1080,
+  "port_password": {
+      "38011": "user38011",
+      "38012": "user38012",
+      "38013": "user38013"
+  },
+  "timeout": 300,
+  "method": "rc4-md5",
+  "fast_open": false
+}

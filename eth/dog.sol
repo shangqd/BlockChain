@@ -73,7 +73,7 @@ contract TokenDog is Token {
 	    dogs[dog] = msg.sender;
 	    emit CreateDog(msg.sender,dog);
 	    return true;	
-	}else {
+	} else {
 	    return false;
 	}
     }

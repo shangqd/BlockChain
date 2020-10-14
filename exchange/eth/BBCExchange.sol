@@ -369,7 +369,13 @@ contract BBCExchange is Ownable {
             string memory buyToken, uint256 buyAmount, uint256 fee, address goBetween, 
             string memory carryOut, uint256 blockHeight, string memory ownerOtherWalletAddress, 
             bytes32 primaryKey) public payable {
+        require( block.number < blockHeight,"createOrder:blockHeight invalid");
+        require( sellAmount > 0,"createOrder:sellAmount invalid");
+        require( buyAmount > 0,"createOrder:buyAmount invalid");
+        require( goBetween != address(0),"createOrder:goBetween invalid");
         require(orderList[msg.sender][primaryKey].blockHeight == 0,"createOrder: Order primaryKey is exist()");
+        require(fee <= 10000 && fee > 0,"createOrder: fee less than 10000 and more than zero");
+        
         if ( msg.value > 0 ) {
             sellToken = address(0);
             sellAmount = msg.value;
@@ -394,26 +400,22 @@ contract BBCExchange is Ownable {
     //  */
      function goBetween(address orderAddress, address sellToken, uint256 amount, string memory buyToken, uint256 buyAmount,address payable buyAddress, 
             address carryOutAddress, bytes32 randIHash, bytes32 randJHash, string memory randKey,bytes32 ordrePrimaryKey,bytes32 betweenPrimaryKey) public {
-                require(orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey].carryOut == address(0),"createOrder: Between primaryKey is exist()");
-             //验证交易对
-            if(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken != sellToken){
-                return;
-            }
-            if(keccak256(abi.encodePacked(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].buyToken)) != keccak256(abi.encodePacked(buyToken))){
-                return;
-            }
             //有可撮合的额度 && 当前块高度小于指定指定高度 && 当前用户是指定的撮合者
-            if (orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount >= amount && block.number < orderList[orderAddress][ordrePrimaryKey].blockHeight
-                && orderList[orderAddress][ordrePrimaryKey].operate["operate"].goBetween == msg.sender){
-                    
-                 //从总额度中减去撮合额度
-                orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount = orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount.sub(amount);
-                orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey] = 
-                    GoBetween({sellAmount:amount, buyAddress:buyAddress,carryOut:carryOutAddress,randIHash:randIHash,
-                            randJHash:randJHash,randKey:randKey, primaryKey:betweenPrimaryKey, buyAmount:buyAmount});
-                orderList[orderAddress][ordrePrimaryKey].betweensKeys[ordrePrimaryKey].push(betweenPrimaryKey);
-                emit betweenEvent(orderAddress,sellToken,buyToken,amount,buyAddress,carryOutAddress,randIHash,randJHash,randKey);
-            }
+            require( block.number < orderList[orderAddress][ordrePrimaryKey].blockHeight,"goBetween:blockHeight invalid");
+            require(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount >= amount,"goBetween:sellAmount not enouth");
+            require(orderList[orderAddress][ordrePrimaryKey].operate["operate"].goBetween == msg.sender,"goBetween:caller is not the goBetween");
+            require(orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey].carryOut == address(0),"createOrder: Between primaryKey is exist()");
+             //验证交易对
+            require(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken == sellToken,"goBetween:sellToken invalid");
+            require(keccak256(abi.encodePacked(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].buyToken)) == keccak256(abi.encodePacked(buyToken)),"goBetween:buyToken invalid");
+            
+             //从总额度中减去撮合额度
+            orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount = orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount.sub(amount);
+            orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey] = 
+                GoBetween({sellAmount:amount, buyAddress:buyAddress,carryOut:carryOutAddress,randIHash:randIHash,
+                        randJHash:randJHash,randKey:randKey, primaryKey:betweenPrimaryKey, buyAmount:buyAmount});
+            orderList[orderAddress][ordrePrimaryKey].betweensKeys[ordrePrimaryKey].push(betweenPrimaryKey);
+            emit betweenEvent(orderAddress,sellToken,buyToken,amount,buyAddress,carryOutAddress,randIHash,randJHash,randKey);
      }
      
     //  /**

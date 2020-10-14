@@ -38,7 +38,12 @@ personal.unlockAccount(eth.accounts[1],"123456")
 ```
 
 ### 编写部署智能合约
-打开： https://remix.ethereum.org/
+打开以太坊开发工具
+https://remix.ethereum.org/
+
+在这个网站下下载ganache-2.4.0-linux-x86_64.AppImage
+这个工具是以太坊的开发模拟节点
+https://www.trufflesuite.com/
 ```
 pragma solidity ^0.4.21;
 contract hello {

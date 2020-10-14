@@ -425,7 +425,7 @@ contract BBCExchange is Ownable {
     //  * buyToken         卖入合约地址
     //  * 参数参考struct GoBetween
     //  */
-     function carryOut( string memory randI,  string memory randJ, address orderAddress,address payable betweensAddress,
+     function carryOut( bytes32 randI,  bytes32 randJ, address orderAddress,address payable betweensAddress,
                 bytes32 ordrePrimaryKey,bytes32 betweenPrimaryKey) public {
             emit debug(block.number);
             emit debug(orderList[orderAddress][ordrePrimaryKey].blockHeight);
@@ -487,8 +487,8 @@ contract BBCExchange is Ownable {
 
         return true;
     }
-    function checkHash(string memory _original, bytes32 hash) public pure returns(bool isEqual){
-        bytes32 original = sha256(bytes(_original));
+    function checkHash(bytes32 _original, bytes32 hash) public pure returns(bool isEqual){
+        bytes32 original = sha256(abi.encodePacked(_original));
         isEqual = (keccak256(abi.encodePacked(original)) == keccak256(abi.encodePacked(hash)));
         return (isEqual);
     }

@@ -293,9 +293,9 @@ contract BBCExchange is Ownable {
     event withdrawEvent(address indexed _to, uint256 _amount);
     event betweenEvent(address orderAddress, address sellToken,string buyToken, uint256 amount, address buyAddress, 
             address carryOutAddress, bytes32 randIHash, bytes32 randJHash, string randKey);
-    event debug(string msg);
-    event debug(bool msg);
-    event debug(bytes32 msg);
+    event debug(uint256 msg);
+    // event debug(bool msg);
+    // event debug(bytes32 msg);
     //struct
     struct TradePair {
         address sellToken;
@@ -310,10 +310,9 @@ contract BBCExchange is Ownable {
     }
     
     struct GoBetween {
-        // mapping(string => TradePair) tradePair;
         uint256 sellAmount;//撮合数量
         uint256 buyAmount;//兑换数量 
-        address buyAddress;//买入者钱包地址
+        address payable buyAddress;//买入者钱包地址
         address carryOut;//乙方执行者地址
         bytes32 randIHash;//随机数I的Hash
         bytes32 randJHash;//随机数J的Hash
@@ -324,7 +323,8 @@ contract BBCExchange is Ownable {
     struct Order {
         mapping(string => TradePair) tradePair;
         mapping(string => Operate) operate;
-        mapping(address => GoBetween[]) betweens;
+        mapping(bytes32 => GoBetween) betweens;
+        mapping(bytes32 => bytes32[]) betweensKeys;
         address owner;//所有者
         string ownerOtherWalletAddress;//挂单者在另外链上的钱包地址
         uint256 fee;//手续费 
@@ -334,31 +334,30 @@ contract BBCExchange is Ownable {
     
     
     
-    mapping (address => Order[]) public orderList;
+    mapping (address => mapping(bytes32 => Order)) public orderList;
 
     
-   function getOrderTradePair(address _user, uint256 _index) public view returns(
+   function getOrderTradePair(address _user, bytes32 _primaryKey) public view returns(
         address sellToken,
         uint256 sellAmount,
         string memory buyToken,
         uint256 buyAmount){
-            TradePair memory _tradePair = orderList[_user][_index].tradePair["trade"];
-            
+            TradePair memory _tradePair = orderList[_user][_primaryKey].tradePair["trade"];
             return(_tradePair.sellToken, _tradePair.sellAmount, _tradePair.buyToken, _tradePair.buyAmount);
     }
     
-    function getOrderOperate(address _user, uint256 _index) public view returns(
+    function getOrderOperate(address _user, bytes32 _primaryKey) public view returns(
         address goBetween,
         string memory carryOut){
-            Operate memory _operate = orderList[_user][_index].operate["operate"];
-            
+            Operate memory _operate = orderList[_user][_primaryKey].operate["operate"];
             return(_operate.goBetween, _operate.carryOut);
     }
     
-    function getBetween(address _user, uint256 _index, address _between, uint256 j) public view returns(uint256 sellAmount,address buyAddress,address carryOut,
+    function getBetween(address _user, bytes32 _orderPrimaryKey, bytes32 _betweenPrimaryKey) public view returns(uint256 sellAmount,address buyAddress,address carryOut,
             bytes32 randIHash,bytes32 randJHash,string memory randKey, uint256 buyAmount){
-        GoBetween[] memory betweens = orderList[_user][_index].betweens[_between];
-        return (betweens[j].sellAmount, betweens[j].buyAddress, betweens[j].carryOut, betweens[j].randIHash,betweens[j].randJHash,betweens[j].randKey,betweens[j].buyAmount);
+        GoBetween memory between = orderList[_user][_orderPrimaryKey].betweens[_betweenPrimaryKey];
+        return (between.sellAmount, between.buyAddress, between.carryOut, 
+                between.randIHash,between.randJHash,between.randKey,between.buyAmount);
     }
     
     /**
@@ -370,17 +369,18 @@ contract BBCExchange is Ownable {
             string memory buyToken, uint256 buyAmount, uint256 fee, address goBetween, 
             string memory carryOut, uint256 blockHeight, string memory ownerOtherWalletAddress, 
             bytes32 primaryKey) public payable {
-
+        require(orderList[msg.sender][primaryKey].blockHeight == 0,"createOrder: Order primaryKey is exist()");
         if ( msg.value > 0 ) {
             sellToken = address(0);
             sellAmount = msg.value;
         }else{
             IERC20(sellToken).safeTransferFrom(msg.sender, address(this), sellAmount);
         }
-        orderList[msg.sender].push(Order({owner:msg.sender, fee:fee, blockHeight:blockHeight, 
-                ownerOtherWalletAddress:ownerOtherWalletAddress, primaryKey:primaryKey}));
-        orderList[msg.sender][orderList[msg.sender].length - 1 ].tradePair["trade"] = TradePair(sellToken, sellAmount, buyToken, buyAmount);
-        orderList[msg.sender][orderList[msg.sender].length - 1 ].operate["operate"] = Operate(goBetween, carryOut);
+        
+        orderList[msg.sender][primaryKey] = Order({owner:msg.sender, fee:fee, blockHeight:blockHeight, 
+                ownerOtherWalletAddress:ownerOtherWalletAddress, primaryKey:primaryKey});
+        orderList[msg.sender][primaryKey].tradePair["trade"] = TradePair(sellToken, sellAmount, buyToken, buyAmount);
+        orderList[msg.sender][primaryKey].operate["operate"] = Operate(goBetween, carryOut);
         emit createOrderEvent(msg.sender, sellToken,sellAmount,buyToken,buyAmount,fee,goBetween,carryOut,blockHeight);
     }
     
@@ -392,32 +392,28 @@ contract BBCExchange is Ownable {
     //  * buyToken         卖入合约地址
     //  * 参数参考struct GoBetween
     //  */
-     function goBetween(address orderAddress, address sellToken, uint256 amount, string memory buyToken, uint256 buyAmount,address buyAddress, 
-            address carryOutAddress, bytes32 randIHash, bytes32 randJHash, string memory randKey,bytes32 primaryKey) public {
-         require(orderList[orderAddress].length > 0);
-         for (uint i = 0; i < orderList[orderAddress].length; i++){
+     function goBetween(address orderAddress, address sellToken, uint256 amount, string memory buyToken, uint256 buyAmount,address payable buyAddress, 
+            address carryOutAddress, bytes32 randIHash, bytes32 randJHash, string memory randKey,bytes32 ordrePrimaryKey,bytes32 betweenPrimaryKey) public {
+                require(orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey].carryOut == address(0),"createOrder: Between primaryKey is exist()");
              //验证交易对
-            if(orderList[orderAddress][i].tradePair['trade'].sellToken != sellToken){
-                continue;
+            if(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken != sellToken){
+                return;
             }
-            if(keccak256(abi.encodePacked(orderList[orderAddress][i].tradePair['trade'].buyToken)) != keccak256(abi.encodePacked(buyToken))){
-                continue;
+            if(keccak256(abi.encodePacked(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].buyToken)) != keccak256(abi.encodePacked(buyToken))){
+                return;
             }
             //有可撮合的额度 && 当前块高度小于指定指定高度 && 当前用户是指定的撮合者
-            if (orderList[orderAddress][i].tradePair['trade'].sellAmount >= amount && block.number < orderList[orderAddress][i].blockHeight
-                && orderList[orderAddress][i].operate["operate"].goBetween == msg.sender){
+            if (orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount >= amount && block.number < orderList[orderAddress][ordrePrimaryKey].blockHeight
+                && orderList[orderAddress][ordrePrimaryKey].operate["operate"].goBetween == msg.sender){
                     
                  //从总额度中减去撮合额度
-                orderList[orderAddress][i].tradePair['trade'].sellAmount = orderList[orderAddress][i].tradePair['trade'].sellAmount.sub(amount);
-                orderList[orderAddress][i].betweens[msg.sender].push(
+                orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount = orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellAmount.sub(amount);
+                orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey] = 
                     GoBetween({sellAmount:amount, buyAddress:buyAddress,carryOut:carryOutAddress,randIHash:randIHash,
-                            randJHash:randJHash,randKey:randKey, primaryKey:primaryKey, buyAmount:buyAmount})
-                    );
-                // orderList[orderAddress][i].betweens[msg.sender][orderList[orderAddress][i].betweens[msg.sender].length - 1].tradePair['trade'] = orderList[orderAddress][i].tradePair['trade'];
+                            randJHash:randJHash,randKey:randKey, primaryKey:betweenPrimaryKey, buyAmount:buyAmount});
+                orderList[orderAddress][ordrePrimaryKey].betweensKeys[ordrePrimaryKey].push(betweenPrimaryKey);
                 emit betweenEvent(orderAddress,sellToken,buyToken,amount,buyAddress,carryOutAddress,randIHash,randJHash,randKey);
-                break;
             }
-        }
      }
      
     //  /**
@@ -427,79 +423,69 @@ contract BBCExchange is Ownable {
     //  * buyToken         卖入合约地址
     //  * 参数参考struct GoBetween
     //  */
-     function carryOut( string memory randI,  string memory randJ, address orderAddress,address betweensAddress) public {
-         require(orderList[orderAddress].length > 0);
-         for(uint j = 0; j < orderList[orderAddress].length; j++){
-             if ( block.number > orderList[orderAddress][j].blockHeight) {
-                    continue;
-                }
-             GoBetween[] memory between = orderList[orderAddress][j].betweens[betweensAddress];
-             for (uint i = 0; i < between.length; i++){
-                if(between[i].carryOut != msg.sender){
-                    continue;
-                }
-                if (!checkHash(randI,between[i].randIHash)){
-                    continue;
-                }
-                if (!checkHash(randJ,between[i].randJHash)){
-                    continue;
-                }
-                if (between[i].sellAmount == 0){
-                    continue;
-                }
+     function carryOut( string memory randI,  string memory randJ, address orderAddress,address payable betweensAddress,
+                bytes32 ordrePrimaryKey,bytes32 betweenPrimaryKey) public {
+            emit debug(block.number);
+            emit debug(orderList[orderAddress][ordrePrimaryKey].blockHeight);
+            require( block.number < orderList[orderAddress][ordrePrimaryKey].blockHeight,"carryOut:blockHeight invalid");
+            GoBetween memory between = orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey];
+
+            require(between.carryOut == msg.sender,"carryOut:caller is not the carryOut");
+            require(checkHash(randI,between.randIHash),"carryOut:randI invalid");
+            require(checkHash(randJ,between.randJHash),"carryOut:randJ invalid");
+            require(between.sellAmount > 0,"carryOut:sellAmount not enough");
                 //可交易总额度
-                uint256 totalAmount = between[i].sellAmount;
+                uint256 totalAmount = between.sellAmount;
                 //计算手续费（手续费= fee / 10000)
-                uint256 fee = totalAmount.mul(orderList[orderAddress][j].fee).div(10000);
+                uint256 fee = totalAmount.mul(orderList[orderAddress][ordrePrimaryKey].fee).div(10000);
                 //计算转给乙方的数量
                 uint256 buyAmount = totalAmount.sub(fee);
                 //计算撮合者及执行者的收益 
                 uint256 exchange = fee.div(2);
                 //可用额度置0
-                between[i].sellAmount = 0;
+                orderList[orderAddress][ordrePrimaryKey].betweens[betweenPrimaryKey].sellAmount = 0;
                 //给乙方转账
-                IERC20(orderList[orderAddress][j].tradePair['trade'].sellToken).safeTransfer(between[i].buyAddress, buyAmount);
-                emit withdrawEvent(between[i].buyAddress,buyAmount);
-                //给撮合者转账
-                IERC20(orderList[orderAddress][j].tradePair['trade'].sellToken).safeTransfer(betweensAddress, exchange);
+                
+                if(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken == address(0)){
+                    between.buyAddress.transfer(buyAmount);
+                    msg.sender.transfer(exchange);
+                    betweensAddress.transfer(exchange);
+                }else{
+                    IERC20(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken).safeTransfer(between.buyAddress, buyAmount);
+                    //给撮合者转账
+                    IERC20(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken).safeTransfer(betweensAddress, exchange);
+                    //给执行者转账
+                    IERC20(orderList[orderAddress][ordrePrimaryKey].tradePair['trade'].sellToken).safeTransfer(msg.sender, exchange);
+                }
+                emit withdrawEvent(between.buyAddress,buyAmount);
                 emit withdrawEvent(betweensAddress,exchange);
-                //给执行者转账
-                IERC20(orderList[orderAddress][j].tradePair['trade'].sellToken).safeTransfer(msg.sender, exchange);
                 emit withdrawEvent(msg.sender,exchange);
-                return;
-            }
-         }
-         
      }
     // // withdraw
     // /**
     //  * 返回用户代币 
     //  */
-    function retrace() public returns(bool) {
-        // to do 
-        //核算所有的余额，待一致性查验
-        for (uint i = 0; i < orderList[msg.sender].length; i++){
-            if (block.number > orderList[msg.sender][i].blockHeight){
-                uint256 _amount = orderList[msg.sender][i].tradePair['trade'].sellAmount;
-                orderList[msg.sender][i].tradePair['trade'].sellAmount.sub(_amount);
-
-                GoBetween[] memory between = orderList[msg.sender][i].betweens[orderList[msg.sender][i].operate["operate"].goBetween];
-
-                for(uint j = 0; j < between.length; j++){
-                    _amount.add(between[j].sellAmount);
-                }
+    function retrace(bytes32 ordrePrimaryKey) public returns(bool) {
+            uint256 _amount = orderList[msg.sender][ordrePrimaryKey].tradePair['trade'].sellAmount;
+            orderList[msg.sender][ordrePrimaryKey].tradePair['trade'].sellAmount 
+                = orderList[msg.sender][ordrePrimaryKey].tradePair['trade'].sellAmount.sub(_amount);
                 
-                if(orderList[msg.sender][i].tradePair['trade'].sellToken == address(0)){
+            if (block.number > orderList[msg.sender][ordrePrimaryKey].blockHeight){
+                bytes32[] memory keys = orderList[msg.sender][ordrePrimaryKey].betweensKeys[ordrePrimaryKey];
+                for(uint j = 0; j < keys.length; j++){
+                    _amount = _amount.add(orderList[msg.sender][ordrePrimaryKey].betweens[keys[j]].sellAmount);
+                }
+            }
+                if(orderList[msg.sender][ordrePrimaryKey].tradePair['trade'].sellToken == address(0)){
                     msg.sender.transfer(_amount);
                 }else{
-                    IERC20(orderList[msg.sender][i].tradePair['trade'].sellToken).safeTransfer(msg.sender, _amount);
+                    IERC20(orderList[msg.sender][ordrePrimaryKey].tradePair['trade'].sellToken).safeTransfer(msg.sender, _amount);
                 }
                 emit retraceEvent(msg.sender, _amount);
-            }
-        }
+
         return true;
     }
-    function checkHash(string memory _original, bytes32 hash) public returns(bool isEqual){
+    function checkHash(string memory _original, bytes32 hash) public pure returns(bool isEqual){
         bytes32 original = sha256(bytes(_original));
         isEqual = (keccak256(abi.encodePacked(original)) == keccak256(abi.encodePacked(hash)));
         return (isEqual);

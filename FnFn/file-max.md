@@ -20,10 +20,10 @@ ulimit -n 10000
 vim /etc/security/limits.conf   
 ```
 #在最后加入
-root soft nofile 65535
-root hard nofile 65535
-* soft nofile 65535
-* hard nofile 65535
+root soft nofile 10000
+root hard nofile 10000
+* soft nofile 10000
+* hard nofile 10000
 ```
 
 ``` C++

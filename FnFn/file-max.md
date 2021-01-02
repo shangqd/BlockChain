@@ -2,14 +2,14 @@
 #### 临时
 echo 1000000 > /proc/sys/fs/file-max
 #### 永久
-vim /etc/sysctl.conf
+vim /etc/sysctl.conf    
 fs.file_max = 10000000
 
 ### nr_open 进程支持的最大文件数
 #### 临时
 echo 1000000 > /proc/sys/fs/nr_open
 #### 永久
-vim /etc/sysctl.conf
+vim /etc/sysctl.conf   
 fs.nr_open = 100000
 
 ### nofile 用户进程支持的最大文件数(分为软[rlim_cur]和硬[rlim_max])
@@ -17,12 +17,14 @@ fs.nr_open = 100000
 ulimit -n 10000
 
 #### 永久
-vim /etc/security/limits.conf
+vim /etc/security/limits.conf   
+```
 #在最后加入
 root soft nofile 65535
 root hard nofile 65535
 * soft nofile 65535
 * hard nofile 65535
+```
 
 ``` C++
 #include <stdio.h>

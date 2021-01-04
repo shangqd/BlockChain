@@ -48,6 +48,6 @@ int main(int argc, char** argv)
 ```
 
 ### 总结
-file-max(内核限制) >= nr_open（进程限制） >=  nofile(rlim_max)（用户进程限制） >= nofile(rlim_cur)（用户进程限制）>= 进程实际打开文件数
+file-max(内核限制) >= nr_open（进程限制） >=  nofile(rlim_max)（用户进程限制[硬]） >= nofile(rlim_cur[软])（用户进程限制）>= 进程实际打开文件数
 
 ### bbc 程序出现问题后的状态

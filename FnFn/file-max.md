@@ -25,7 +25,7 @@ root hard nofile 10000
 * soft nofile 10000
 * hard nofile 10000
 ```
-
+#### 程序控制
 ``` C++
 #include <stdio.h>
 #include <sys/resource.h>

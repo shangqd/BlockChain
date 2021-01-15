@@ -47,3 +47,9 @@ a = '𠀋'
 #\ud869\udfdd
 PrintCode(a)
 print("-----------------------")
+
+uni: b'\\U0002000b'
+utf-16: b'40d80bdc'
+utf-8: b'\xf0\xa0\x80\x8b'
+GB18030: b'\x952\x837'
+utf-32: b'0b000200'

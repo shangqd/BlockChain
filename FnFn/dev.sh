@@ -5,6 +5,7 @@ https://github.com/Canhui/SHA3-ON-GPU/blob/master/sha3.cu
 
 
 tcpdump host 18.182.192.156
+sudo  tcpdump -i lo -v  host 127.0.0.1
 
 https://gitlab.dabank.io/users/sign_in
 

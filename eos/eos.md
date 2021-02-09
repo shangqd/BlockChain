@@ -3,30 +3,17 @@
 在DAWN-2018-03-23这个版本上才有这个控制
 ``` C++
 // 对于调试而言，一个重要的控制就是是否能打印出来完整的调用堆栈
-const static eosio::chain::wasm_interface::vm_type default_wasm_runtime = eosio::chain::wasm_interface::vm_type::binaryen;
-
-// 
-class wasm_interface {
-      public:
-         enum class vm_type {
-            wavm,   
-            binaryen,
-         };
-}
-
-
-// 后来修改成了
-const static eosio::chain::wasm_interface::vm_type default_wasm_runtime = eosio::chain::wasm_interface::vm_type::wabt;
+const static eosio::chain::wasm_interface::vm_type default_wasm_runtime = eosio::chain::wasm_interface::vm_type::wavm;
 
 class wasm_interface {
       public:
          enum class vm_type {
-            wavm,
-            wabt
+            wavm, // 发布版本
+            wabt  // 调试版本
          };
 }
 ```
-### 注册虚拟机函数的时候没有执行时间，时间是怎么控制的？
+### 注册虚拟机函数
 ```C++
 REGISTER_INJECTED_INTRINSICS(softfloat_api,
       (_eosio_f32_add,       float(float, float)    )
@@ -89,3 +76,14 @@ REGISTER_INJECTED_INTRINSICS(softfloat_api,
       (_eosio_ui64_to_f64,    double(int64_t)       )
 );
 ```
+### 调试方法
+换成调试模式，转个账，在require_recipient函数打个断点在这里等他
+
+### 问题
+注册虚拟机函数的时候没有执行时间，时间是怎么控制的？
+
+### eosio.contracts安装
+eosio.contracts 版本v1.7.2  
+#### 依赖如下两个程序的版本，如果版本不对，将编译错误
+eos 版本v1.8.16   
+eosio.cdt 版本1.6.3  

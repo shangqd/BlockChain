@@ -134,3 +134,45 @@ cleos push action eosio.token transfer '[ "eosio", "test", "50000.0000 EOS", "he
 
 # 查看test账户eos余额
 cleos get currency balance eosio.token test
+
+##########################################################################################################################
+### 从创始块开始快速测试
+cleos wallet unlock -n test --password PW5K9en6N7Amdbf9p6T5cL7AJ4eDUMVVZpxt6ecT8gu2CtyUCgTnU
+cleos create account eosio test EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos get account test
+curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
+
+
+cleos set contract eosio contracts/eosio.bios -p eosio
+
+cleos create account eosio eosio.bpay EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.msig EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.names EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.ram EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.ramfee EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.saving EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.stake EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.token EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.vpay EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+cleos create account eosio eosio.rex EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
+
+# 部署eosio.token合约，部署账户为eosio.token
+cleos set contract eosio.token contracts/eosio.token -p eosio.token
+
+# 
+cleos  set  contract  eosio.msig  contracts/eosio.msig  -p  eosio.msig
+
+# 创建eos 
+cleos  push  action  eosio.token  create  '[ "eosio", "1000000000.0000 EOS"]' -p eosio.token
+# 增发eos
+cleos  push  action  eosio.token issue '[ "eosio", "1000000000.0000 EOS", "test message"]' -p eosio
+
+# 查看
+cleos get currency stats eosio.token EOS
+
+# 转账
+cleos push action eosio.token transfer '[ "eosio", "test", "50000.0000 EOS", "hello eos" ]' -p eosio
+### 这一步如果因为断点的原因时间停留的太久，就会出现交易时间过长的错误，从而导致交易失败
+
+# 查看test账户eos余额
+cleos get currency balance eosio.token test

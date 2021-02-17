@@ -136,7 +136,7 @@ cleos push action eosio.token transfer '[ "eosio", "test", "50000.0000 EOS", "he
 cleos get currency balance eosio.token test
 
 ##########################################################################################################################
-### 从创始块开始快速测试
+### 钱包已经准备好从创始块开始快速测试
 cleos wallet unlock -n test --password PW5K9en6N7Amdbf9p6T5cL7AJ4eDUMVVZpxt6ecT8gu2CtyUCgTnU
 cleos create account eosio test EOS6zmEuqUpPzQ7kjiVK6vcsTCD3RCGyr6SoacAptPuXCoPzLkQao EOS73a9XYkvJTGfwi4Gy91DxGDz9GLCLGzcWYuD7dvfYjT3K3iNad
 cleos get account test
@@ -175,4 +175,5 @@ cleos push action eosio.token transfer '[ "eosio", "test", "50000.0000 EOS", "he
 ### 这一步如果因为断点的原因时间停留的太久，就会出现交易时间过长的错误，从而导致交易失败
 
 # 查看test账户eos余额
+
 cleos get currency balance eosio.token test

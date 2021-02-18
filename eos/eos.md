@@ -1,3 +1,9 @@
+### eosio.contracts安装
+eosio.contracts 版本v1.7.2  
+#### 依赖如下两个程序的版本，如果版本不对，将编译错误
+eos 版本v1.8.16   
+eosio.cdt 版本1.6.3 (包含智能合约开发的头文件，相当于gcc提供的头文件和编译链接工具)
+
 ### 控制虚拟机类型枚举  
 ``` C++
 // 对于调试而言，一个重要的控制就是是否能打印出来完整的调用堆栈
@@ -66,13 +72,33 @@ extern "C" {
 chainbase::database            db;
 chainbase::database            reversible_blocks; ///< a special database to persist blocks that have successfully been applied but are still reversible
 ```
-通过以上的操作，完成了智能合约内部到eos内部的数据共享
+通过以上的操作，完成了智能合约内部到eos内部的数据共享，  
+内存数据库估计需要改造下就能完成目标了squash函数，修改成如果从最远处执行，就能满足项目需求
 
-### 问题
-注册虚拟机函数的时候没有执行时间，时间是怎么控制的？   
-这个是没有控制的，出块节点如果对本交易的时间认可就可以继续上链了 
-### eosio.contracts安装
-eosio.contracts 版本v1.7.2  
-#### 依赖如下两个程序的版本，如果版本不对，将编译错误
-eos 版本v1.8.16   
-eosio.cdt 版本1.6.3  
+### 要移植的eos库如下
+#### 1 wabt(libraries/wabt)
+智能合约调试版本，功能相当于4，5，6，7
+4，5，6，7相当于发布版，发布版也是eos的默认版本
+
+#### 2 softfloat(libraries/softfloat)
+浮点计算标准，为了保证在各种平台上的严格一致
+
+#### 3 chainbase(libraries/chainbase)
+内存数据库
+
+#### 4 IR（libraries/wasm-jit）
+（Intermediate Representation）它紧密地反映了WebAssembly二进制格式的语义，但更容易在内存中使用。
+中间代码表示库
+
+#### 5 Runtime（libraries/wasm-jit）
+运行时，是一个核心，组合其他模块来提供虚拟机环境
+
+#### 6 WASM（libraries/wasm-jit）
+机器语言文件格式库
+
+#### 7 WAST（libraries/wasm-jit）
+wasm text format
+汇编语言文件格式库
+
+#### 8 eosio_chain(libraries/chain)
+目标库，是对上面库的包装

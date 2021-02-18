@@ -1,4 +1,5 @@
 cmake_minimum_required( VERSION 3.8 )
 project( BBC )
 include( GNUInstallDirs )
+MESSAGE( STATUS "GNUInstallDirs = ${GNUInstallDirs}") 
 add_subdirectory( wasm )

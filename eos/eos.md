@@ -78,7 +78,10 @@ chainbase::database            reversible_blocks; ///< a special database to per
 ### 要移植的eos库如下
 #### 1 wabt(libraries/wabt)
 智能合约调试版本，功能相当于4，5，6，7
-4，5，6，7相当于发布版，发布版也是eos的默认版本
+4，5，6，7相当于发布版，发布版也是eos的默认版本  
+在bbc-wasm 文件夹下把wabt项目复制到bbc-wasm/wasm  
+./bbs.sh 即可完成编译，
+camke文件里面有特殊的 include( GNUInstallDirs )，否则wabt不能编译 
 
 #### 2 softfloat(libraries/softfloat)
 浮点计算标准，为了保证在各种平台上的严格一致
